@@ -3,8 +3,10 @@ package id.tiooooo.myarticle.ui.pages.list.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.verticalScroll
@@ -24,9 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import id.tiooooo.myarticle.data.implementation.local.entity.SearchEntity
+import id.tiooooo.myarticle.ui.theme.EXTRA_SMALL_PADDING
 import id.tiooooo.myarticle.ui.theme.MEDIUM_PADDING
+import id.tiooooo.myarticle.ui.theme.ZERO_PADDING
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,12 +51,13 @@ fun SimpleSearchBar(
     Box(
         modifier
             .fillMaxWidth()
+            .padding(top = 0.dp)
             .semantics { isTraversalGroup = true }
     ) {
         SearchBar(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = padding)
+                .padding(horizontal = padding, vertical = ZERO_PADDING)
                 .align(Alignment.TopCenter)
                 .semantics { traversalIndex = 0f },
             inputField = {
@@ -68,7 +74,12 @@ fun SimpleSearchBar(
                     },
                     expanded = expanded,
                     onExpandedChange = { onExpandedChange.invoke(it) },
-                    placeholder = { Text("Search") },
+                    placeholder = {
+                        Text(
+                            modifier = Modifier.padding(start = EXTRA_SMALL_PADDING),
+                            text = "Search"
+                        )
+                    },
                     leadingIcon = if (expanded) {
                         {
                             IconButton(
@@ -84,15 +95,22 @@ fun SimpleSearchBar(
                             }
                         }
                     } else null
-
                 )
             },
             expanded = expanded,
+            windowInsets = WindowInsets(top = 0.dp),
             onExpandedChange = { onExpandedChange.invoke(it) },
         ) {
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 if (history.isEmpty()) {
-                    Text("No history yet", modifier = Modifier.padding(16.dp))
+                    Text(
+                        modifier = Modifier
+                            .padding(MEDIUM_PADDING)
+                            .fillMaxWidth()
+                            .align(Alignment.CenterHorizontally),
+                        text = "No history yet",
+                        textAlign = TextAlign.Center,
+                    )
                 } else {
                     history.forEach { item ->
                         ListItem(

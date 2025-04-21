@@ -11,25 +11,3 @@ interface SearchRepository {
     suspend fun clearAllSearches()
 }
 
-class SearchRepositoryImpl(
-    private val dao: SearchDao
-) : SearchRepository {
-
-    override suspend fun insertSearch(keyword: String) {
-        val search = SearchEntity(keyword = keyword)
-        dao.insertSearch(search)
-    }
-
-    override fun getAllSearches(): Flow<List<SearchEntity>> {
-        return dao.getAllSearches()
-    }
-
-    override suspend fun deleteSearchById(id: Int) {
-        dao.deleteSearchById(id)
-    }
-
-    override suspend fun clearAllSearches() {
-        dao.clearAllSearches()
-    }
-}
-

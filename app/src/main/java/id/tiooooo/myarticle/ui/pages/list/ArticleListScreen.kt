@@ -4,12 +4,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -27,10 +26,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import id.tiooooo.myarticle.ui.components.common.CommonAppBar
+import id.tiooooo.myarticle.ui.pages.detail.DetailArticleRoute
+import id.tiooooo.myarticle.ui.pages.detail.DetailScreen
 import id.tiooooo.myarticle.ui.pages.list.component.ArticleListItem
-import id.tiooooo.myarticle.ui.pages.list.component.NewsSiteBottomSheet
-import id.tiooooo.myarticle.ui.pages.list.component.SimpleSearchBar
-import id.tiooooo.myarticle.ui.pages.list.component.SortFilterBottomSheet
+import id.tiooooo.myarticle.ui.pages.list.component.FilterBottomSheet
+import id.tiooooo.myarticle.ui.pages.list.component.SearchAndFilterRow
 import id.tiooooo.myarticle.utils.DATATYPE
 import id.tiooooo.myarticle.utils.toStringType
 
@@ -46,8 +46,7 @@ fun ArticleListScreen(
     val navigator = LocalNavigator.currentOrThrow
 
     val textFieldState = rememberTextFieldState()
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val multiSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     LaunchedEffect(type) {
         screenModel.dispatch(
@@ -70,59 +69,12 @@ fun ArticleListScreen(
             AnimatedVisibility(!state.isSearchExpand) {
                 CommonAppBar(title = type.toStringType()) { navigator.pop() }
             }
-            SimpleSearchBar(
-                expanded = state.isSearchExpand,
-                onExpandedChange = { screenModel.dispatch(ArticleListIntent.UpdateSearchExpand(it)) },
-                textFieldState = textFieldState,
-                onSearch = { query ->
-                    screenModel.dispatch(
-                        ArticleListIntent.UpdateArticleFilterParams(
-                            state.articleFilterParams.copy(
-                                query = query
-                            )
-                        )
-                    )
-                },
-                history = state.searchHistory,
-                onAddHistory = { query ->
-                    if (query.isNotBlank() && state.searchHistory.none {
-                            it.keyword.contains(
-                                query,
-                                ignoreCase = true
-                            )
-                        }) {
-                        screenModel.dispatch(ArticleListIntent.SaveSearchQuery(query))
-                    }
-                },
-                onRemoveHistory = { item ->
-                    screenModel.dispatch(ArticleListIntent.RemoveSearchQuery(item))
-                },
-                onBack = {
-
-                }
+            SearchAndFilterRow(
+                modifier = Modifier.fillMaxWidth(),
+                state = state,
+                screenModel = screenModel,
+                textFieldState = textFieldState
             )
-            Row {
-                Button(
-                    onClick = {
-                        screenModel.dispatch(
-                            ArticleListIntent.UpdateBottomSheetFilter(
-                                true
-                            )
-                        )
-                    }
-                ) {
-                    Text(text = "Filter urutan")
-                }
-
-                Button(
-                    onClick = {
-                        screenModel.dispatch(ArticleListIntent.UpdateBottomSheetNewsSite(true))
-                    }
-                ) {
-                    Text(text = "Filter Tanggal")
-                }
-            }
-
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -134,8 +86,10 @@ fun ArticleListScreen(
                     item?.let {
                         ArticleListItem(
                             item = it,
-                            onClick = {
-
+                            onClick = { item ->
+                                navigator.push(
+                                    DetailArticleRoute(item.id)
+                                )
                             }
                         )
                     }
@@ -169,9 +123,10 @@ fun ArticleListScreen(
     }
 
     if (state.isBottomSheetFilterOpen) {
-        SortFilterBottomSheet(
+        FilterBottomSheet(
             sheetState = sheetState,
             currentSort = state.articleFilterParams.sortBy,
+            currentNewsSite = state.articleFilterParams.newsSite.split(","),
             onDismissRequest = {
                 screenModel.dispatch(
                     ArticleListIntent.UpdateBottomSheetFilter(
@@ -180,33 +135,21 @@ fun ArticleListScreen(
                 )
             },
             sortOptions = state.filterSortBy,
+            newsSiteOptions = state.filterNewsSite,
+            onNewsSiteSelected = { newFilters ->
+                screenModel.dispatch(
+                    ArticleListIntent.UpdateArticleFilterParams(
+                        state.articleFilterParams.copy(
+                            newsSite = newFilters.joinToString(",")
+                        )
+                    )
+                )
+            },
             onSortSelected = { selected ->
                 screenModel.dispatch(
                     ArticleListIntent.UpdateArticleFilterParams(
                         state.articleFilterParams.copy(
                             sortBy = selected
-                        )
-                    )
-                )
-            }
-        )
-    }
-
-    if (state.isBottomSheetNewsSite) {
-        NewsSiteBottomSheet(
-            sheetState = multiSheetState,
-            currentSelections = state.articleFilterParams.newsSite.split(","),
-            onDismissRequest = {
-                screenModel.dispatch(
-                    ArticleListIntent.UpdateBottomSheetNewsSite(false)
-                )
-            },
-            filterOptions = state.filterNewsSite,
-            onApplyFilter = { newFilters ->
-                screenModel.dispatch(
-                    ArticleListIntent.UpdateArticleFilterParams(
-                        state.articleFilterParams.copy(
-                            newsSite = newFilters.joinToString(",")
                         )
                     )
                 )
