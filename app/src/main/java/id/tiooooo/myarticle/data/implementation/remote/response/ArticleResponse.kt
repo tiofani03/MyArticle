@@ -45,8 +45,8 @@ fun ArticleResponse?.toDomain(): ArticleData {
         publishedAt = this?.publishedAt?.toIndonesianDate().orEmpty(),
         articleUrl = this?.url ?: "",
         source = this?.newsSite ?: "",
-        launches = this?.launches?.map { it.launchId ?: "" } ?: emptyList(),
-        events = this?.events?.map { it.eventId.toString() } ?: emptyList()
+        launches = this?.launches?.map { it.provider ?: "" } ?: emptyList(),
+        events = this?.events?.map { it.provider.toString() } ?: emptyList()
     )
 }
 
