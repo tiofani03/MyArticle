@@ -1,5 +1,6 @@
 package id.tiooooo.myarticle.ui.pages.home.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +30,8 @@ fun HomeSectionStateView(
     titleLeft: String,
     titleRight: String = "",
     state: ResultState<List<HomeItemData>>,
-    onSeeMoreClicked: () -> Unit = {}
+    onSeeMoreClicked: () -> Unit = {},
+    onDetailClicked: (Int) -> Unit = {},
 ) {
     when (state) {
         is ResultState.Success -> {
@@ -41,6 +43,7 @@ fun HomeSectionStateView(
                 onSeeMoreClicked = onSeeMoreClicked,
                 items = articles,
                 itemPaddingValues = PaddingValues(horizontal = SMALL_PADDING),
+                onDetailClicked = onDetailClicked
             )
         }
 
@@ -68,6 +71,7 @@ fun HomeSection(
     items: List<HomeItemData>,
     onSeeMoreClicked: () -> Unit = {},
     itemPaddingValues: PaddingValues = PaddingValues(horizontal = 16.dp),
+    onDetailClicked: (Int) -> Unit = {},
 ) {
     Column {
         TitleLeftAndRight(
@@ -84,6 +88,9 @@ fun HomeSection(
             items(items) { article ->
                 HomeItemSection(
                     modifier = Modifier
+                        .clickable {
+                            onDetailClicked(article.id)
+                        }
                         .height(IMAGE_HOME_SIZE),
                     image = article.imageUrl,
                     title = article.title,

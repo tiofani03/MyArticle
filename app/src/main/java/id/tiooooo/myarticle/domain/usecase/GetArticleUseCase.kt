@@ -2,6 +2,7 @@ package id.tiooooo.myarticle.domain.usecase
 
 import id.tiooooo.myarticle.data.api.repo.SpaceFlightRepository
 import id.tiooooo.myarticle.ui.pages.home.model.HomeItemData
+import id.tiooooo.myarticle.utils.DATATYPE
 import id.tiooooo.myarticle.utils.wrapper.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -21,6 +22,7 @@ class GetArticleUseCase(
                 is ResultState.Success -> {
                     val mapped = result.data.map { item ->
                         HomeItemData(
+                            id = item.id,
                             imageUrl = item.imageUrl,
                             title = item.title
                         )
@@ -33,10 +35,4 @@ class GetArticleUseCase(
             }
         }
     }
-}
-
-enum class DATATYPE {
-    ARTICLE,
-    BLOG,
-    REPORT
 }

@@ -2,6 +2,9 @@ package id.tiooooo.myarticle.data.implementation.remote.response
 
 import com.google.gson.annotations.SerializedName
 import id.tiooooo.myarticle.data.api.model.ArticleData
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 data class ArticleResponse(
     @SerializedName("id") val id: Int?,
@@ -32,19 +35,33 @@ data class EventResponse(
 )
 
 
-fun ArticleResponse.toDomain(): ArticleData {
+fun ArticleResponse?.toDomain(): ArticleData {
     return ArticleData(
-        id = this.id ?: 0,
-        title = this.title ?: "",
-        authors = this.authors?.map { it.name ?: "" } ?: emptyList(),
-        imageUrl = this.imageUrl ?: "",
-        summary = this.summary ?: "",
-        publishedAt = this.publishedAt ?: "",
-        articleUrl = this.url ?: "",
-        source = this.newsSite ?: "",
-        launches = this.launches?.map { it.launchId ?: "" } ?: emptyList(),
-        events = this.events?.map { it.eventId.toString() } ?: emptyList()
+        id = this?.id ?: 0,
+        title = this?.title ?: "",
+        authors = this?.authors?.map { it.name ?: "" } ?: emptyList(),
+        imageUrl = this?.imageUrl ?: "",
+        summary = this?.summary?.substringBefore(".").orEmpty() + ".",
+        publishedAt = this?.publishedAt?.toIndonesianDate().orEmpty(),
+        articleUrl = this?.url ?: "",
+        source = this?.newsSite ?: "",
+        launches = this?.launches?.map { it.launchId ?: "" } ?: emptyList(),
+        events = this?.events?.map { it.eventId.toString() } ?: emptyList()
     )
+}
+
+fun String.toIndonesianDate(): String {
+    return try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+        val date = inputFormat.parse(this)
+
+        val outputFormat = SimpleDateFormat("d MMMM yyyy, HH:mm", Locale.getDefault())
+        date?.let { outputFormat.format(it) } ?: this
+    } catch (e: Exception) {
+        return this
+    }
 }
 
 
