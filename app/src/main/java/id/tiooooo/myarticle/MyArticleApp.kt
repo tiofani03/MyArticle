@@ -1,6 +1,7 @@
 package id.tiooooo.myarticle
 
 import android.app.Application
+import id.tiooooo.myarticle.di.localModule
 import id.tiooooo.myarticle.di.networkModule
 import id.tiooooo.myarticle.di.repositoryModule
 import id.tiooooo.myarticle.di.screenModelModule
@@ -15,6 +16,7 @@ class MyArticleApp : Application() {
             androidContext(this@MyArticleApp)
             modules(
                 listOf(
+                    localModule,
                     networkModule,
                     repositoryModule,
                     useCaseModule,

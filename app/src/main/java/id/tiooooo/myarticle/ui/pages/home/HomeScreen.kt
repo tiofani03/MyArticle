@@ -14,6 +14,7 @@ import id.tiooooo.myarticle.ui.components.common.BaseScaffold
 import id.tiooooo.myarticle.ui.pages.detail.DetailArticleRoute
 import id.tiooooo.myarticle.ui.pages.home.component.HomeSectionStateView
 import id.tiooooo.myarticle.ui.pages.home.component.HomeTextGreeting
+import id.tiooooo.myarticle.ui.pages.list.ArticleListRoute
 import id.tiooooo.myarticle.ui.theme.MEDIUM_PADDING
 import id.tiooooo.myarticle.utils.DATATYPE
 
@@ -59,6 +60,13 @@ fun HomeScreen(
                                 type = DATATYPE.ARTICLE,
                             )
                         )
+                    },
+                    onSeeMoreClicked = {
+                        navigator.push(
+                            ArticleListRoute(
+                                type = DATATYPE.ARTICLE,
+                            )
+                        )
                     }
                 )
             }
@@ -78,6 +86,13 @@ fun HomeScreen(
                                 type = DATATYPE.BLOG,
                             )
                         )
+                    },
+                    onSeeMoreClicked = {
+                        navigator.push(
+                            ArticleListRoute(
+                                type = DATATYPE.BLOG,
+                            )
+                        )
                     }
                 )
             }
@@ -94,6 +109,13 @@ fun HomeScreen(
                         navigator.push(
                             DetailArticleRoute(
                                 id = id,
+                                type = DATATYPE.REPORT,
+                            )
+                        )
+                    },
+                    onSeeMoreClicked = {
+                        navigator.push(
+                            ArticleListRoute(
                                 type = DATATYPE.REPORT,
                             )
                         )

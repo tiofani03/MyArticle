@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,10 +24,9 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil.compose.AsyncImage
-import id.tiooooo.myarticle.ui.pages.detail.component.DetailAppBar
+import id.tiooooo.myarticle.ui.components.common.CommonAppBar
 import id.tiooooo.myarticle.ui.theme.EXTRA_SMALL_PADDING
 import id.tiooooo.myarticle.ui.theme.MEDIUM_PADDING
-import id.tiooooo.myarticle.ui.theme.SMALL_PADDING
 import id.tiooooo.myarticle.utils.DATATYPE
 import id.tiooooo.myarticle.utils.wrapper.ResultState
 
@@ -49,7 +47,7 @@ fun DetailScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            DetailAppBar(
+            CommonAppBar(
                 title = "Detail Article",
                 subtitle = id.toString(),
             ) { navigator.pop() }
