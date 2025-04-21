@@ -1,4 +1,4 @@
-package id.tiooooo.myarticle.ui.pages.detail.component
+package id.tiooooo.myarticle.ui.components.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,7 +23,7 @@ import id.tiooooo.myarticle.ui.theme.textMedium16
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailAppBar(
+fun CommonAppBar(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String = "",

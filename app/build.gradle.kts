@@ -96,4 +96,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    debugImplementation("com.github.chuckerteam.chucker:library:4.1.0")
 }

@@ -1,5 +1,6 @@
 package id.tiooooo.myarticle.di
 
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import id.tiooooo.myarticle.data.implementation.remote.service.SpaceFlightService
 import id.tiooooo.myarticle.utils.AppConstants.BASE_URL
 import okhttp3.OkHttpClient
@@ -9,7 +10,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val networkModule = module {
     single {
+        ChuckerInterceptor(
+            context = get()
+        )
+    }
+    single {
         OkHttpClient.Builder()
+            .addInterceptor(get<ChuckerInterceptor>())
             .build()
     }
 
@@ -25,3 +32,4 @@ val networkModule = module {
         get<Retrofit>().create(SpaceFlightService::class.java)
     }
 }
+
