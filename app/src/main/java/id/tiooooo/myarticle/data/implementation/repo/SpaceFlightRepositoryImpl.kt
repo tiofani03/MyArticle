@@ -26,6 +26,20 @@ class SpaceFlightRepositoryImpl(
         }
     }.flowOn(Dispatchers.IO)
 
+    override fun getArticlesById(id: Int) = flow {
+        try {
+            emit(ResultState.Loading)
+            val response = spaceFlightService.getArticlesById(id)
+            val data = response.toDomain()
+
+            emit(ResultState.Success(data))
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(ResultState.Error(e.message.orEmpty()))
+        }
+    }.flowOn(Dispatchers.IO)
+
     override fun getBlogs() = flow {
         try {
             emit(ResultState.Loading)
@@ -40,11 +54,39 @@ class SpaceFlightRepositoryImpl(
         }
     }.flowOn(Dispatchers.IO)
 
+    override fun getBlogsById(id: Int) = flow {
+        try {
+            emit(ResultState.Loading)
+            val response = spaceFlightService.getBlogsById(id)
+            val data = response.toDomain()
+
+            emit(ResultState.Success(data))
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(ResultState.Error(e.message.orEmpty()))
+        }
+    }.flowOn(Dispatchers.IO)
+
     override fun getReports() = flow {
         try {
             emit(ResultState.Loading)
             val response = spaceFlightService.getReports()
             val data = response.results?.map { it.toDomain() }.orEmpty()
+
+            emit(ResultState.Success(data))
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(ResultState.Error(e.message.orEmpty()))
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override fun getReportsById(id: Int) = flow {
+        try {
+            emit(ResultState.Loading)
+            val response = spaceFlightService.getReportsById(id)
+            val data = response.toDomain()
 
             emit(ResultState.Success(data))
 

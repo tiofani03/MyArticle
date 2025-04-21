@@ -2,9 +2,9 @@ package id.tiooooo.myarticle.ui.pages.home
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import id.tiooooo.myarticle.domain.usecase.DATATYPE
 import id.tiooooo.myarticle.domain.usecase.GetArticleUseCase
 import id.tiooooo.myarticle.ui.pages.home.model.HomeItemData
+import id.tiooooo.myarticle.utils.DATATYPE
 import id.tiooooo.myarticle.utils.wrapper.ResultState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
