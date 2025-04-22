@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 object SessionManager {
     fun scheduleLogoutTimer(context: Context) {
         val logoutWorkRequest = OneTimeWorkRequestBuilder<LogoutWorker>()
-            .setInitialDelay(10, TimeUnit.SECONDS)
+            .setInitialDelay(10, TimeUnit.MINUTES)
             .build()
 
         WorkManager.getInstance(context).enqueue(logoutWorkRequest)

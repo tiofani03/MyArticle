@@ -2,11 +2,12 @@ package id.tiooooo.myarticle.ui.pages.splash
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import id.tiooooo.myarticle.base.BaseScreenModel
-import id.tiooooo.myarticle.data.api.repo.UserRepository
+import id.tiooooo.myarticle.domain.usecase.GetCheckIsLoggedInUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashScreenModel(
-    private val userRepository: UserRepository,
+    private val getCheckIsLoggedInUseCase: GetCheckIsLoggedInUseCase
 ) : BaseScreenModel<SplashState, SplashIntent, SplashEffect>(
     initialState = SplashState()
 ) {
@@ -24,7 +25,8 @@ class SplashScreenModel(
         when (intent) {
             is SplashIntent.CheckLogin -> {
                 screenModelScope.launch {
-                    userRepository.checkIsLoggedIn().collect {
+                    delay(1500)
+                    getCheckIsLoggedInUseCase.invoke().collect {
                         if (it) {
                             sendEffect(SplashEffect.NavigateToHome)
                         } else {

@@ -66,7 +66,7 @@ fun FilterBottomSheet(
                 .verticalScroll(rememberScrollState())
         ) {
             Row {
-                Text("Urutkan Berdasarkan", style = MaterialTheme.typography.titleMedium)
+                Text("Sort By", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.weight(1f))
                 Text(
                     text = "Reset",
@@ -108,7 +108,7 @@ fun FilterBottomSheet(
             Spacer(Modifier.height(HUGE_PADDING))
 
 
-            Text("Pilih News Site", style = MaterialTheme.typography.titleMedium)
+            Text("Select News Site", style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(MEDIUM_PADDING))
 
             FlowRow(
@@ -146,7 +146,7 @@ fun FilterBottomSheet(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Terapkan")
+                Text("Apply")
             }
             Spacer(Modifier.height(MEDIUM_PADDING))
         }

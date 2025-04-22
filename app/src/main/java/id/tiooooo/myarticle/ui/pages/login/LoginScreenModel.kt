@@ -3,14 +3,14 @@ package id.tiooooo.myarticle.ui.pages.login
 import android.app.Activity
 import cafe.adriel.voyager.core.model.screenModelScope
 import id.tiooooo.myarticle.base.BaseScreenModel
-import id.tiooooo.myarticle.data.api.repo.UserRepository
+import id.tiooooo.myarticle.domain.usecase.ExecuteLoginUseCase
 import id.tiooooo.myarticle.utils.wrapper.ResultState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class LoginScreenModel(
-    private val userRepository: UserRepository,
+    private val executeLoginUseCase: ExecuteLoginUseCase
 ) : BaseScreenModel<LoginState, LoginIntent, LoginEffect>(
     initialState = LoginState()
 ) {
@@ -21,29 +21,10 @@ class LoginScreenModel(
         activity: Activity,
     ) {
         screenModelScope.launch {
-            userRepository.checkIsLoggedIn().collect {
-                if (!it) {
-                    userRepository.executeLogout(activity).collect { logoutState ->
-                        when (logoutState) {
-                            is ResultState.Success -> executeLogin(activity)
-                            else -> Unit
-                        }
-                    }
-                } else {
-                    executeLogin(activity)
-                }
-            }
-        }
-    }
-
-    private fun executeLogin(
-        activity: Activity,
-    ) {
-        screenModelScope.launch {
-            userRepository.executeLogin(activity).collect { resultState ->
-                when (resultState) {
+            executeLoginUseCase.invoke(activity).collect {
+                when (it) {
                     is ResultState.Error -> {
-                        sendEffect(LoginEffect.ShowErrorMessage(resultState.throwable.orEmpty()))
+                        sendEffect(LoginEffect.ShowErrorMessage(it.throwable.orEmpty()))
                     }
 
                     is ResultState.Success -> {

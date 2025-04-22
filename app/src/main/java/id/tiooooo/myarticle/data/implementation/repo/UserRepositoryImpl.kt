@@ -91,5 +91,4 @@ class UserRepositoryImpl(
         val email = appDatastore.userEmail.first()
         emit(isLoggedIn && email.isNotEmpty())
     }
-
 }

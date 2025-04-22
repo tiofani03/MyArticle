@@ -16,10 +16,8 @@ import org.koin.java.KoinJavaComponent.getKoin
 class LogoutWorker(
     context: Context,
     workerParams: WorkerParameters,
-//    private val appDatastore: AppDatastore
 ) : Worker(context, workerParams) {
-//    private val appDatastore = AppDatastore(context)
-private val appDatastore: AppDatastore = getKoin().get() // Ambil dependensi dari Koin secara manual
+private val appDatastore: AppDatastore = getKoin().get()
 
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)

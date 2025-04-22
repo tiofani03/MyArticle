@@ -62,7 +62,11 @@ fun DetailScreen(
         ) {
             when (articlesState) {
                 is ResultState.Loading -> {
-                    CircularProgressIndicator(modifier = Modifier.padding(MEDIUM_PADDING))
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(MEDIUM_PADDING)
+                            .align(Alignment.CenterHorizontally)
+                    )
                 }
 
                 is ResultState.Error -> {

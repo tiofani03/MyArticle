@@ -1,5 +1,6 @@
 package id.tiooooo.myarticle.ui.pages.splash
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -56,12 +58,6 @@ fun SplashScreen(
                     .align(Alignment.Center)
                     .padding(bottom = MEDIUM_PADDING),
             ) {
-//                AnimatedPreloader(
-//                    modifier = Modifier
-//                        .size(225.dp)
-//                        .align(Alignment.CenterHorizontally),
-//                    animationRes = R.raw.pika_run,
-//                )
                 Text(
                     modifier = Modifier
                         .wrapContentWidth()
@@ -81,25 +77,13 @@ fun SplashScreen(
                         .wrapContentWidth()
                         .padding(horizontal = EXTRA_LARGE_PADDING)
                         .align(Alignment.CenterHorizontally),
-                    text = "splash_text_subtitle",
+                    text = "Find your article here",
                     style = textMedium12().copy(
                         fontWeight = FontWeight.Light,
                         color = Color.White,
                     )
                 )
             }
-
-            Text(
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .padding(bottom = paddingValues.calculateBottomPadding() + MEDIUM_PADDING)
-                    .align(Alignment.BottomCenter),
-                text = "version_app",
-                style = textMedium12().copy(
-                    fontWeight = FontWeight.Normal,
-                    color = Color.White,
-                )
-            )
         }
     }
 }

@@ -2,15 +2,15 @@ package id.tiooooo.myarticle.ui.pages.home
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import id.tiooooo.myarticle.base.BaseScreenModel
-import id.tiooooo.myarticle.data.api.repo.UserRepository
 import id.tiooooo.myarticle.domain.usecase.GetArticleUseCase
+import id.tiooooo.myarticle.domain.usecase.GetProfileNameUseCase
 import id.tiooooo.myarticle.utils.DATATYPE
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class HomeScreenModel(
     private val getArticleUseCase: GetArticleUseCase,
-    private val userRepository: UserRepository,
+    private val getProfileNameUseCase: GetProfileNameUseCase,
 ) : BaseScreenModel<HomeState, HomeIntent, HomeEffect>(
     initialState = HomeState()
 ) {
@@ -52,9 +52,8 @@ class HomeScreenModel(
         }
 
         screenModelScope.launch {
-            userRepository.getProfileEmail().collect { name ->
-                setState { it.copy(userName = name.substringBefore("@")) }
-            }
+            val name = getProfileNameUseCase.invoke()
+            setState { it.copy(userName = name) }
         }
     }
 
@@ -64,10 +63,10 @@ class HomeScreenModel(
         val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
 
         return when (currentHour) {
-            in 5..10 -> "Selamat pagi"
-            in 11..14 -> "Selamat siang"
-            in 15..17 -> "Selamat sore"
-            in 18..23, in 0..4 -> "Selamat malam"
+            in 5..10 -> "Good Morning"
+            in 11..14 -> "Good Afternoon"
+            in 15..17 -> "Good Evening"
+            in 18..23, in 0..4 -> "Good Night"
             else -> "Halo"
         }
     }

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.CircularProgressIndicator
@@ -18,19 +20,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import id.tiooooo.myarticle.ui.components.common.CommonAppBar
 import id.tiooooo.myarticle.ui.pages.detail.DetailArticleRoute
-import id.tiooooo.myarticle.ui.pages.detail.DetailScreen
 import id.tiooooo.myarticle.ui.pages.list.component.ArticleListItem
 import id.tiooooo.myarticle.ui.pages.list.component.FilterBottomSheet
 import id.tiooooo.myarticle.ui.pages.list.component.SearchAndFilterRow
+import id.tiooooo.myarticle.ui.theme.MEDIUM_PADDING
+import id.tiooooo.myarticle.ui.theme.SMALL_PADDING
 import id.tiooooo.myarticle.utils.DATATYPE
 import id.tiooooo.myarticle.utils.toStringType
 
@@ -78,8 +81,8 @@ fun ArticleListScreen(
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(16.dp)
+                verticalArrangement = Arrangement.spacedBy(SMALL_PADDING),
+                contentPadding = PaddingValues(MEDIUM_PADDING)
             ) {
                 items(articlesState.itemCount) { index ->
                     val item = articlesState[index]
@@ -97,23 +100,39 @@ fun ArticleListScreen(
 
                 when (articlesState.loadState.append) {
                     is LoadState.Loading -> item {
-                        CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                        CircularProgressIndicator(modifier = Modifier
+                            .wrapContentHeight()
+                            .wrapContentWidth()
+                            .align(Alignment.CenterHorizontally)
+                            .padding(MEDIUM_PADDING))
                     }
 
                     is LoadState.Error -> item {
                         Text(
-                            text = "Terjadi kesalahan saat memuat data.",
+                            text = "Something error",
                             color = Color.Red,
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(MEDIUM_PADDING)
                         )
                     }
 
                     else -> Unit
                 }
 
-                when (articlesState.loadState.prepend) {
+                when (articlesState.loadState.refresh) {
                     is LoadState.Loading -> item {
-                        CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                        CircularProgressIndicator(modifier = Modifier
+                            .wrapContentHeight()
+                            .wrapContentWidth()
+                            .align(Alignment.CenterHorizontally)
+                            .padding(MEDIUM_PADDING))
+                    }
+
+                    is LoadState.Error -> item {
+                        Text(
+                            text = "Something went wrong while loading data",
+                            color = Color.Red,
+                            modifier = Modifier.padding(MEDIUM_PADDING)
+                        )
                     }
 
                     else -> Unit

@@ -13,6 +13,6 @@ val screenModelModule = module {
     factory { DetailArticleScreenModel(get()) }
     factory { ArticleListScreenModel(get(), get(), get()) }
     factory { LoginScreenModel(get()) }
-    factory { ProfileScreenModel(get()) }
+    factory { ProfileScreenModel(get(), get()) }
     factory { SplashScreenModel(get()) }
 }
