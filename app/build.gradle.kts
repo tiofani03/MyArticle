@@ -18,6 +18,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["auth0Domain"] = "@string/com_auth0_domain"
+        manifestPlaceholders["auth0Scheme"] = "demo"
     }
 
     buildTypes {
@@ -55,6 +57,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
 
+    //auth0
+    implementation(libs.auth0)
 
     // coil
     implementation(libs.coil.compose)
@@ -87,6 +91,9 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.paging)
     ksp(libs.room.compiler)
+
+    // workmanager
+    implementation(libs.androidx.work.runtime.ktx)
 
     // test
     testImplementation(libs.junit)
