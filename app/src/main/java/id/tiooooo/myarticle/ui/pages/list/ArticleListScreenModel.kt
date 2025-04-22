@@ -4,7 +4,7 @@ import androidx.paging.cachedIn
 import cafe.adriel.voyager.core.model.screenModelScope
 import id.tiooooo.myarticle.base.BaseScreenModel
 import id.tiooooo.myarticle.data.api.repo.SearchRepository
-import id.tiooooo.myarticle.data.api.repo.SpaceFlightRepository
+import id.tiooooo.myarticle.domain.usecase.GetArticlePagingUseCase
 import id.tiooooo.myarticle.domain.usecase.GetInfoUseCase
 import id.tiooooo.myarticle.utils.createSortValueListSlug
 import id.tiooooo.myarticle.utils.wrapper.ResultState
@@ -15,10 +15,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ArticleListScreenModel(
-    private val articleRepository: SpaceFlightRepository,
+    private val getArticlePagingUseCase: GetArticlePagingUseCase,
     private val getInfoUseCase: GetInfoUseCase,
     private val searchRepository: SearchRepository,
-) : BaseScreenModel<ArticleListState, ArticleListIntent, ArticleListEffect>(
+) : BaseScreenModel<ArticleListState, ArticleListIntent, Nothing>(
     initialState = ArticleListState()
 ) {
     init {
@@ -31,7 +31,7 @@ class ArticleListScreenModel(
         .map { it.articleFilterParams }
         .distinctUntilChanged()
         .flatMapLatest { params ->
-            articleRepository.getArticleFlow(params)
+            getArticlePagingUseCase.invoke(params)
         }
         .cachedIn(screenModelScope)
 

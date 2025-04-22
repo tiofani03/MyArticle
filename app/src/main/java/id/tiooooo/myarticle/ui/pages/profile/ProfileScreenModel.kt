@@ -2,13 +2,15 @@ package id.tiooooo.myarticle.ui.pages.profile
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import id.tiooooo.myarticle.base.BaseScreenModel
-import id.tiooooo.myarticle.data.api.repo.UserRepository
+import id.tiooooo.myarticle.domain.usecase.ExecuteLogoutUseCase
+import id.tiooooo.myarticle.domain.usecase.GetCheckIsLoggedInUseCase
+import id.tiooooo.myarticle.domain.usecase.GetProfileEmailUseCase
 import id.tiooooo.myarticle.utils.wrapper.ResultState
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class ProfileScreenModel(
-    private val userRepository: UserRepository,
+    private val getProfileEmailUseCase: GetProfileEmailUseCase,
+    private val executeLogoutUseCase: ExecuteLogoutUseCase,
 ) : BaseScreenModel<ProfileState, ProfileIntent, ProfileEffect>(
     initialState = ProfileState()
 ) {
@@ -30,7 +32,7 @@ class ProfileScreenModel(
     override suspend fun handleIntentSideEffect(intent: ProfileIntent) {
         when (intent) {
             is ProfileIntent.ExecuteLogout -> {
-                userRepository.executeLogout(intent.activity).collect { logoutState ->
+                executeLogoutUseCase.invoke(intent.activity).collect { logoutState ->
                     when (logoutState) {
                         is ResultState.Success -> sendEffect(ProfileEffect.NavigateToLogin)
                         else -> Unit
@@ -39,20 +41,12 @@ class ProfileScreenModel(
             }
 
             is ProfileIntent.InitProfile -> {
-                val currentState = state.value
                 screenModelScope.launch {
-                    combine(
-                        userRepository.getProfileEmail(),
-                        userRepository.getProfileNickName()
-                    ) { email, name ->
-                        email to name
-                    }.collect { (email, name) ->
+                    getProfileEmailUseCase.invoke().collect { email ->
                         setState {
-                            currentState.copy(
+                            it.copy(
                                 email = email,
-                                name = name.ifEmpty {
-                                    email.substringBefore("@")
-                                },
+                                name = email.substringBefore("@"),
                             )
                         }
                     }

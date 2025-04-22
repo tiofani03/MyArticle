@@ -24,10 +24,6 @@ sealed interface ArticleListIntent {
     data class RemoveSearchQuery(val searchEntity: SearchEntity) : ArticleListIntent
 }
 
-sealed interface ArticleListEffect {
-    object NavigateToDetail : ArticleListEffect
-}
-
 data class ArticleFilterParams(
     val types: DATATYPE = DATATYPE.ARTICLE,
     val sortBy: String = "-published_at",

@@ -22,12 +22,11 @@ import androidx.compose.ui.text.font.FontWeight
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import id.tiooooo.myarticle.ui.components.common.BaseScaffold
-import id.tiooooo.myarticle.ui.components.common.BasicTopBarTitle
+import id.tiooooo.myarticle.ui.components.common.CommonAppBar
 import id.tiooooo.myarticle.ui.pages.login.LoginRoute
 import id.tiooooo.myarticle.ui.pages.profile.component.ProfileHeader
 import id.tiooooo.myarticle.ui.theme.MEDIUM_PADDING
 import id.tiooooo.myarticle.ui.theme.SMALL_PADDING
-import id.tiooooo.myarticle.ui.theme.textMedium16
 import id.tiooooo.myarticle.utils.showSimpleNotification
 
 @Composable
@@ -49,7 +48,13 @@ fun ProfileScreen(
         }
     }
 
-    BaseScaffold { paddingValues ->
+    BaseScaffold(
+        topBar = {
+            CommonAppBar(
+                title = "Profile",
+            ) { navigator.pop() }
+        }
+    ) { paddingValues ->
         Box(
             modifier = modifier.padding(paddingValues),
         ) {
@@ -58,13 +63,6 @@ fun ProfileScreen(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
             ) {
-                BasicTopBarTitle(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(start = MEDIUM_PADDING),
-                    title = "profile",
-                )
-
                 ProfileHeader(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -72,44 +70,6 @@ fun ProfileScreen(
                     name = state.name,
                     email = state.email,
                 )
-
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = MEDIUM_PADDING)
-                        .padding(vertical = SMALL_PADDING, horizontal = MEDIUM_PADDING),
-                    text = "settings",
-                    style = textMedium16().copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-
-//                SettingItemLayout(
-//                    item = SettingItem(
-//                        title = stringRes("theme_settings"),
-//                        icon = Icons.Filled.DarkMode,
-//                    ),
-//                    onSettingClicked = { screenModel.dispatch(ProfileIntent.ShowDialogTheme(true)) }
-//                )
-//
-//                SettingItemLayout(
-//                    item = SettingItem(
-//                        title = stringRes("language_settings"),
-//                        icon = Icons.Filled.Translate,
-//                    ),
-//                    onSettingClicked = { screenModel.dispatch(ProfileIntent.ShowDialogLanguage(true)) }
-//                )
-//
-//                Text(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(MEDIUM_PADDING),
-//                    text = stringRes("version_app", APP_VERSION),
-//                    textAlign = TextAlign.Center,
-//                    style = textMedium12().copy(
-//                        fontWeight = FontWeight.Normal,
-//                    )
-//                )
             }
 
             Button(
@@ -123,26 +83,4 @@ fun ProfileScreen(
             }
         }
     }
-
-//    if (state.isShowDialogTheme) {
-//        ChooseThemeDialog(
-//            currentTheme = AppTheme.fromValue(state.activeTheme),
-//            onDismiss = { screenModel.dispatch(ProfileIntent.ShowDialogTheme(false)) },
-//            onConfirm = {
-//                screenModel.dispatch(ProfileIntent.ShowDialogTheme(false))
-//                screenModel.dispatch(ProfileIntent.UpdateTheme(it.label))
-//            }
-//        )
-//    }
-//
-//    if (state.isShowDialogLanguage) {
-//        ChooseLanguageDialog(
-//            currentLanguage = AppLanguage.fromValue(state.selectedLanguage),
-//            onDismiss = { screenModel.dispatch(ProfileIntent.ShowDialogLanguage(false)) },
-//            onConfirm = {
-//                screenModel.dispatch(ProfileIntent.ShowDialogLanguage(false))
-//                screenModel.dispatch(ProfileIntent.UpdateLanguage(it.code))
-//            }
-//        )
-//    }
 }

@@ -88,13 +88,13 @@ fun LoginScreen(
             )
 
             Text(
-                text = "Selamat Datang!",
+                text = "Welcome!",
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(
-                text = "Silakan login atau daftar untuk melanjutkan",
+                text = "Login or register to Continue",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                 modifier = Modifier.padding(top = SMALL_PADDING, bottom = LARGE_PADDING)
@@ -109,7 +109,7 @@ fun LoginScreen(
                     .height(50.dp),
                 shape = RoundedCornerShape(MEDIUM_PADDING)
             ) {
-                Text("Login atau Daftar")
+                Text("Login or Register")
             }
 
             if (accessToken != null) {

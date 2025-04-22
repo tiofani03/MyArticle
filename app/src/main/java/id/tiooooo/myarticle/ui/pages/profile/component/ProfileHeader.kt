@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -22,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import id.tiooooo.myarticle.R
+import id.tiooooo.myarticle.ui.theme.HUGE_PADDING
 import id.tiooooo.myarticle.ui.theme.MEDIUM_PADDING
 import id.tiooooo.myarticle.ui.theme.SMALL_PADDING
 import id.tiooooo.myarticle.ui.theme.textMedium14
@@ -45,12 +49,13 @@ fun ProfileHeader(
                 .padding(MEDIUM_PADDING),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "Profile Picture",
+            Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .size(50.dp)
-                    .clip(CircleShape)
+                    .padding(bottom = HUGE_PADDING)
             )
             Spacer(modifier = Modifier.width(MEDIUM_PADDING))
 
