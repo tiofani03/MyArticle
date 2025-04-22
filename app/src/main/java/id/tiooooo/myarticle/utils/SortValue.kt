@@ -1,8 +1,8 @@
 package id.tiooooo.myarticle.utils
 
 enum class SortValue(val label: String, val slug: String) {
-    DESCENDING("Terbaru", "-published_at"),
-    ASCENDING("Terlama", "published_at"),
+    DESCENDING("News", "-published_at"),
+    ASCENDING("Oldest", "published_at"),
 }
 
 fun createSortValueListSlug(): List<SortValue> {
