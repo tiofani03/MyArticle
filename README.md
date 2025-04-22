@@ -10,7 +10,7 @@
 ## 📱 Overview
 
 Article is designed with a strong focus on contemporary Android development practices. It showcases a reactive UI built with Jetpack Compose, MVI architecture, and Redux-style state management.
-[Download APK](https://drive.google.com/file/d/1NLgdIgVzga2bIqbm08m1QUWrib1VKAtI/view?usp=sharing)
+[Download APK](https://drive.google.com/file/d/1Sbkmr4OywTQCrzxCmcnIgtBG1afTa-MX/view?usp=drive_link)
 
 ---
 
