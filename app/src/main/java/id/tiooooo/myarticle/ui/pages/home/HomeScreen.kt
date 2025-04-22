@@ -15,6 +15,7 @@ import id.tiooooo.myarticle.ui.pages.detail.DetailArticleRoute
 import id.tiooooo.myarticle.ui.pages.home.component.HomeSectionStateView
 import id.tiooooo.myarticle.ui.pages.home.component.HomeTextGreeting
 import id.tiooooo.myarticle.ui.pages.list.ArticleListRoute
+import id.tiooooo.myarticle.ui.pages.profile.ProfileRoute
 import id.tiooooo.myarticle.ui.theme.MEDIUM_PADDING
 import id.tiooooo.myarticle.utils.DATATYPE
 
@@ -23,9 +24,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     homeScreenModel: HomeScreenModel,
 ) {
-    val articlesState by homeScreenModel.articlesState.collectAsState()
-    val blogsState by homeScreenModel.blogsState.collectAsState()
-    val reportsState by homeScreenModel.reportsState.collectAsState()
+    val state by homeScreenModel.state.collectAsState()
     val navigator = LocalNavigator.currentOrThrow
 
     BaseScaffold(
@@ -42,7 +41,10 @@ fun HomeScreen(
                         .padding(top = MEDIUM_PADDING)
                         .padding(horizontal = MEDIUM_PADDING),
                     greetingMessage = homeScreenModel.getGreetingMessage(),
-                    userName = "Tio"
+                    userName = state.userName,
+                    onProfileClick = {
+                        navigator.push(ProfileRoute())
+                    }
                 )
             }
             item {
@@ -52,7 +54,7 @@ fun HomeScreen(
                         .padding(horizontal = MEDIUM_PADDING),
                     titleLeft = "Article",
                     titleRight = "See more",
-                    state = articlesState,
+                    state = state.articles,
                     onDetailClicked = { id ->
                         navigator.push(
                             DetailArticleRoute(
@@ -78,7 +80,7 @@ fun HomeScreen(
                         .padding(horizontal = MEDIUM_PADDING),
                     titleLeft = "Blog",
                     titleRight = "See more",
-                    state = blogsState,
+                    state = state.blogs,
                     onDetailClicked = { id ->
                         navigator.push(
                             DetailArticleRoute(
@@ -104,7 +106,7 @@ fun HomeScreen(
                         .padding(horizontal = MEDIUM_PADDING),
                     titleLeft = "Report",
                     titleRight = "See more",
-                    state = reportsState,
+                    state = state.reports,
                     onDetailClicked = { id ->
                         navigator.push(
                             DetailArticleRoute(

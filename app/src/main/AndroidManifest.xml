@@ -22,11 +22,31 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.MyArticle">
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="demo"
+                    android:host="id.tiooooo.myarticle"
+                    android:pathPrefix="/android/id.tiooooo.myarticle/callback" />
+            </intent-filter>
+
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <receiver android:name=".utils.LogoutReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="id.tiooooo.myarticle.broadcast.logout" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

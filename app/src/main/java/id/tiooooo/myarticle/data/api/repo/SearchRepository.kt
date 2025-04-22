@@ -1,6 +1,5 @@
 package id.tiooooo.myarticle.data.api.repo
 
-import id.tiooooo.myarticle.data.implementation.local.dao.SearchDao
 import id.tiooooo.myarticle.data.implementation.local.entity.SearchEntity
 import kotlinx.coroutines.flow.Flow
 
